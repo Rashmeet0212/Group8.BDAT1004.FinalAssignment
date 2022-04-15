@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+  background-color: rgb(131, 192, 233);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.barchart{
+  width: 30%;
+  margin-left: 30%;
+  margin-top: 20%;
+  top: 10%;
+  left: 50%;
+}
+.demo{
+  margin-left: 55px;
+}
+.crypto{
+  width:220px;
+  height:25px;
+  margin-left: 35px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Bitcoin Exchange Rates</h1>
+   <div class="search">
+     
+     <form action="word">
+      <select class="crypto" name="crypto" id="crypto" onchange="selectOnchange({{coins}})">
+        <option>Select</option>
+        {% for i in coins %}
+        <option>{{i.name}}</option>
+        {% endfor %}
+      </select>
+      <h1 id="demo" class="demo"></h1>
+    </form>
+  </div>
+</div>
+<div class="barchart">
+    <canvas id="myChart" style="width:100%;max-width:1500px"></canvas>
+</div>
+    <script>
+      function selectOnchange(coins) {
+        search=document.getElementById("crypto").value
+        var xValues=[]
+        var yValues=[]
+        for(let i in coins){
+          if(coins[i].name==search)
+          {
+            document.getElementById("demo").innerHTML = coins[i].unit+" "+coins[i].value  ;
+            xValues.push(coins[i].name)
+            yValues.push(coins[i].value);
+          }
+        }
+            new Chart("myChart", {
+              type: "bar",
+              data: {
+                labels: xValues,
+                datasets: [{
+                  backgroundColor: 'Blue',
+                  data: yValues
+                }]
+              },
+              options: {
+                legend: {display: false},
+                title: {
+                  display: true,
+                  text: "Coin Rates"
+                }
+              }
+            });
+        
+        
+      }
+      </script>  
+    </body>
+</html>
